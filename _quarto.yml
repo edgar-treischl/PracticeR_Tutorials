@@ -3,22 +3,23 @@ project:
   output-dir: docs
 
 book:
-  title: "Practice R: Tutorials"
+  title: "Practice R: The Tutorials"
   author: "Edgar J. Treischl"
   date: last-modified
   chapters:
     - index.qmd
+    - Ch_02.qmd
     - intro.qmd
     - summary.qmd
     - references.qmd
   navbar:
     right:
       - icon: github
-        href: https://github.com/edgar-treischl/Pythoneer
+        href: https://github.com/edgar-treischl/PracticeR_Tutorials
         aria-label: GitHub
 
-cover-image: cover.png
-bibliography: references.bib
+cover-image: cover.jpg
+bibliography: PracticeR_FINAL.bib
 
 format:
   html:
