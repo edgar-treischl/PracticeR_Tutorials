@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Practice R: The Tutorials - 2&nbsp; Data Exploration</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./chapter_02.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+</head><body class="nav-sidebar floating nav-fixed"><div id="progress-bar" style="width: 0%; height:2px; background-color: rgb(89 127 235);; position: fixed; top: 0px; z-index: 2000;"></div>
+
+<script id="progressbar" type="text/javascript">
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const bar = document.querySelector('#progress-bar');
+    const post = document.querySelector('#quarto-content');
+    const html = document.documentElement;
+    
+    const height = post.scrollHeight + post.offsetTop;
+    
+    window.addEventListener('scroll', () => {
+        bar.style.width = (html.scrollTop / (height- html.clientHeight)) * 100 + '%';
+    });
+});
+</script>
+
+
+
+
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Practice R: The Tutorials</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgar-treischl/PracticeR_Tutorials" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_03.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Exploration</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Base R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_03.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Exploration</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link active" data-scroll-target="#categorical-variables"><span class="header-section-number">2.1</span> Categorical variables</a></li>
+  <li><a href="#continuous-variables" id="toc-continuous-variables" class="nav-link" data-scroll-target="#continuous-variables"><span class="header-section-number">2.2</span> Continuous variables</a></li>
+  <li><a href="#explore-effects" id="toc-explore-effects" class="nav-link" data-scroll-target="#explore-effects"><span class="header-section-number">2.3</span> Explore effects</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.4</span> Summary</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">2.5</span> References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Exploration</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Welcome to the data exploration tutorial of the <a href="https://www.degruyter.com/document/isbn/9783110704969/html?lang=de" title="Go to the website">Practice R</a> book <span class="citation" data-cites="treischl_practice_2023">(<a href="references.html#ref-treischl_practice_2023" role="doc-biblioref">Treischl 2023</a>)</span>. Practice R is a text book for the social sciences which provides several tutorials supporting students to learn R. Feel free to inspect the tutorials even if you are not familiar with the book, but keep in mind these tutorials are supposed to complement the Practice R book.</p>
+<p><a href="https://allisonhorst.github.io/palmerpenguins/" target="_blank"><img src="https://allisonhorst.github.io/palmerpenguins/logo.png" alt="The palmerpenguins package" align="right" width="100" style="padding:10px"></a></p>
+<p>In this tutorial we recapture the most important functions to explore data, but this time you will explore the <code>palmerpenguins</code> package and the <code>penguins</code> data <span class="citation" data-cites="palmerpenguins">(<a href="references.html#ref-palmerpenguins" role="doc-biblioref">Horst, Hill, and Gorman 2022</a>)</span>. The latter contains information about three different penguins species (Adélie, Chinstrap, and Gentoo) and <a href="https://allisonhorst.github.io/palmerpenguins/index.html">Allison Horst</a> has made some wonderful illustrations of them. Click on the hex sticker to inspect the package website.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://allisonhorst.github.io/palmerpenguins/index.html"><img src="https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png" class="img-fluid figure-img" style="width:90.0%"></a></p>
+<figcaption class="figure-caption">Palmerpenguins: Artwork by Allison Horst</figcaption>
+</figure>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tutorial 03: Explore data</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarytools)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visdat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The tutorial has the same structure as Chapter 3: We explore categorical variables, continuous variables, and effects. Before we start with variables, it is always a good idea to explore the data in general terms. First, I assigned the data as <code>df</code>, which makes it possible for us to recycle a lot of code from Chapter 3. Next, explore which variables does the <code>penguins</code> data contain. Use the <code>glimpse()</code> or the <code>str()</code> function for a first look of the <code>penguins</code> data. The <code>glimpse()</code> function is loaded via the <code>dplyr</code> package, but comes from the <code>pillar</code> package <span class="citation" data-cites="pillar">(<a href="references.html#ref-pillar" role="doc-biblioref">Müller and Wickham 2022</a>)</span>.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use glimpse, head, or the str function for a first look</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> penguins</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Rows: 344
+#&gt; Columns: 8
+#&gt; $ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+#&gt; $ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+#&gt; $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+#&gt; $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+#&gt; $ flipper_length_mm &lt;int&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+#&gt; $ body_mass_g       &lt;int&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+#&gt; $ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male…
+#&gt; $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
+</div>
+</div>
+<p>Thus, there are several factor variables such as penguin’s <code>species</code> or <code>island</code>; numerical variables such as bill (<code>bill_length_mm</code>) and flipper length (<code>flipper_length_mm</code>); and integers such as the <code>year</code> variable. Keep in mind that R packages come with help files that show us how functions work and they provide more information about data. Use the help function (<code>?penguins</code>) if you feel insecure about the content of the data.</p>
+<section id="categorical-variables" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="categorical-variables"><span class="header-section-number">2.1</span> Categorical variables</h2>
+<p>We started to explore categorical variables in Chapter 3 and I outlined a few basics about factor variables. Suppose we want to explore the factor variable <code>island</code>, which indicates where the penguins live. How can you examine unique group levels?</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the levels() of the penguin's home island</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(df<span class="sc">$</span>island)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "Biscoe"    "Dream"     "Torgersen"</code></pre>
+</div>
+</div>
+<p>We will deepen our knowledge about factor variables in Chapter 5, but keep in mind that we can (re-) create and adjust <code>factor()</code> variables. For example, suppose the data looks like a messy character vector for penguin’s <code>sex</code> that I have created in the next console. In such a case it is good to remember that we can give the variable proper text <code>labels</code> (e.g., <code>female</code> for <code>f</code>) and examine the results.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="10">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a messy factor variable</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sex <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"m"</span>, <span class="st">"f"</span>, <span class="st">"f"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Give clearer labels</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(sex,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"f"</span>, <span class="st">"m"</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"male"</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] male   female female
+#&gt; Levels: female male</code></pre>
+</div>
+</div>
+<p>Tables help us to explore data and we used the <code>summarytools</code> package to make frequency and cross tables <span class="citation" data-cites="summarytools">(<a href="references.html#ref-summarytools" role="doc-biblioref">Comtois 2022</a>)</span>. Keep in mind that we will learn how to create text documents with tables and graphs in Chapter 8. For the moment it is enough to remember that we can create different sort of tables with the <code>summarytools</code> package. For example, create a frequency (<code>freq</code>) table to find out on which <code>island</code> most of the penguins live.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a frequency table</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(df<span class="sc">$</span>island)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Frequencies  
+#&gt; df$island  
+#&gt; Type: Factor  
+#&gt; 
+#&gt;                   Freq   % Valid   % Valid Cum.   % Total   % Total Cum.
+#&gt; --------------- ------ --------- -------------- --------- --------------
+#&gt;          Biscoe    168     48.84          48.84     48.84          48.84
+#&gt;           Dream    124     36.05          84.88     36.05          84.88
+#&gt;       Torgersen     52     15.12         100.00     15.12         100.00
+#&gt;            &lt;NA&gt;      0                               0.00         100.00
+#&gt;           Total    344    100.00         100.00    100.00         100.00</code></pre>
+</div>
+</div>
+<p>As outlined in the book, we can use the <code>table()</code> function to count categorical variables and plot the result as a bar graph. I introduced the latter approach because it is very easy to apply, but our code becomes clearer if we make the necessary steps visible. First, we need to count the levels before we can plot the results. The <code>count()</code> function from the <code>dplyr</code> package does this job <span class="citation" data-cites="dplyr">(<a href="references.html#ref-dplyr" role="doc-biblioref">Wickham et al. 2022</a>)</span>. It needs only the data frame and the factor variable.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count islands with dplyr</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>count_island <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">count</span>(df, island)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>count_island</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 3 × 2
+#&gt;   island        n
+#&gt;   &lt;fct&gt;     &lt;int&gt;
+#&gt; 1 Biscoe      168
+#&gt; 2 Dream       124
+#&gt; 3 Torgersen    52</code></pre>
+</div>
+</div>
+<p>Next, use the assigned results (<code>count_island</code>) and insert the variables into the <code>barplot()</code> function (with the formula <code>y ~ x</code>).</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r6setup">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a barplot</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(n <span class="sc">~</span> island, <span class="at">data =</span> count_island)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="images/r7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><a href="https://boxuancui.github.io/DataExplorer/" target="_blank"><img src="https://github.com/boxuancui/DataExplorer/raw/master/man/figures/logo.png" alt="The DataExplorer package" align="right" width="100" style="padding:10px"></a></p>
+<p>In a similar vein, I introduced functions from the <code>DataExplorer</code> package that help us to get a quick overview <span class="citation" data-cites="DataExplorer">(<a href="references.html#ref-DataExplorer" role="doc-biblioref">Cui 2020</a>)</span>. For example, use the <code>plot_bar()</code> function to depict several or all discrete variables of a data frame.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect all or several plots at once</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>DataExplorer<span class="sc">::</span><span class="fu">plot_bar</span>(df[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="images/r14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="continuous-variables" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="continuous-variables"><span class="header-section-number">2.2</span> Continuous variables</h2>
+<p>To explore continuous variables, estimate the summary statistics with the <code>summary()</code> function. Pick one variable such as penguin’s body mass in gram (<code>body_mass_g</code>) or use the entire data frame.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get a summary</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;       species          island    bill_length_mm  bill_depth_mm  
+#&gt;  Adelie   :152   Biscoe   :168   Min.   :32.10   Min.   :13.10  
+#&gt;  Chinstrap: 68   Dream    :124   1st Qu.:39.23   1st Qu.:15.60  
+#&gt;  Gentoo   :124   Torgersen: 52   Median :44.45   Median :17.30  
+#&gt;                                  Mean   :43.92   Mean   :17.15  
+#&gt;                                  3rd Qu.:48.50   3rd Qu.:18.70  
+#&gt;                                  Max.   :59.60   Max.   :21.50  
+#&gt;                                  NA's   :2       NA's   :2</code></pre>
+</div>
+</div>
+<p>The classic approach to visualize the distribution of a continuous variable is a histogram. Use the <code>hist()</code> function to display the distribution of the penguins body mass.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a histogram</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df<span class="sc">$</span>body_mass_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="images/r8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Keep in mind that we only explored the data for the first time. We did not clean the data nor did we prepare the variables. We have to be explicit about missing values when we want to apply functions such as the <code>mean</code>. The function returns <code>NA</code>, but only because of a missing values problem. Can you remember how to fix this problem and estimate, for example, the mean?</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the mean, but what about missing values (na.rm)?</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 4201.754</code></pre>
+</div>
+</div>
+<p>I picked data that was more or less prepared to be explored, because data preparation needs more time and effort especially in the beginning. For this reason we will learn how to manipulate data in Chapter 4; and Chapter 5 tries to prepare you for own journey. For example, we use packages such as <code>visdat</code> and <code>naniar</code> to identify missing values, as the next console illustrates with two examples <span class="citation" data-cites="naniar">(<a href="references.html#ref-naniar" role="doc-biblioref">Tierney et al. 2021</a>)</span>. The <code>vis_dat()</code> function from the corresponding packages shows us which type of data we have with missing values in gray; while <code>vis_miss()</code> visualizes missing values in general terms. Keep in mind that Chapter 3 did not introduce data preparation steps which are often necessary to explore data and effects between variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visdat)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Left plot: vis_dat()</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">vis_dat</span>(df)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Right plot: vis_miss()</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">vis_miss</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="explore-effects" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="explore-effects"><span class="header-section-number">2.3</span> Explore effects</h2>
+<p>Let’s start with an <em>effect between two categorical variables</em>. There are different packages that provides functions to create (cross) tables, but we used the <code>summarytools</code> package. It even provides a simulated data set which we will use the repeat the steps to create a cross table. The package comes with the <code>tobacco</code> data, which illustrates that smoking is harmful. As the next console shows, it indicates if a person is a <code>smoker</code> and if the person is <code>diseased</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tobacco)[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;   gender age age.gr      BMI smoker cigs.per.day diseased      disease
+#&gt; 1      M  75   71 + 29.50225     No            0       No         &lt;NA&gt;
+#&gt; 2      F  35  35-50 26.14989     No            0      Yes Neurological
+#&gt; 3      F  70  51-70 27.53183     No            0       No         &lt;NA&gt;
+#&gt; 4      F  40  35-50 24.05832     No            0       No         &lt;NA&gt;
+#&gt; 5      F  75   71 + 22.77486     No            0      Yes      Hearing
+#&gt; 6      M  38  35-50 21.46412     No            0       No         &lt;NA&gt;</code></pre>
+</div>
+</div>
+<p>Use the <code>ctable</code> function from the <code>summarytools</code> package to make a cross table for these variables. See also what happens if you adjust the <code>prop</code> option. Insert <code>c</code> or <code>t</code>. Furthermore, explore what happens if you set the <code>chisq</code>, <code>OR</code>, or <code>RR</code> option to <code>TRUE</code>.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="9" data-exercise.blanks="___">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a cross table with summarytools</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>summarytools<span class="sc">::</span><span class="fu">ctable</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> tobacco<span class="sc">$</span>smoker,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> tobacco<span class="sc">$</span>diseased,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">prop =</span> <span class="st">"r"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">chisq =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">OR =</span> <span class="cn">TRUE</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Cross-Tabulation, Row Proportions  
+#&gt; smoker * diseased  
+#&gt; Data Frame: tobacco  
+#&gt; 
+#&gt; 
+#&gt; -------- ---------- ------------- ------------- ---------------
+#&gt;            diseased           Yes            No           Total
+#&gt;   smoker                                                       
+#&gt;      Yes              125 (41.9%)   173 (58.1%)    298 (100.0%)
+#&gt;       No               99 (14.1%)   603 (85.9%)    702 (100.0%)
+#&gt;    Total              224 (22.4%)   776 (77.6%)   1000 (100.0%)
+#&gt; -------- ---------- ------------- ------------- ---------------
+#&gt; 
+#&gt; ----------------------------
+#&gt;  Chi.squared   df   p.value 
+#&gt; ------------- ---- ---------
+#&gt;    91.7088     1       0    
+#&gt; ----------------------------
+#&gt; 
+#&gt; ----------------------------------
+#&gt;  Odds Ratio   Lo - 95%   Hi - 95% 
+#&gt; ------------ ---------- ----------
+#&gt;     4.40        3.22       6.02   
+#&gt; ----------------------------------</code></pre>
+</div>
+</div>
+<p>The <code>prop</code> option lets you determine the proportions: rows (<code>r</code>), columns (<code>c</code>), total (<code>t</code>), or none (<code>n</code>). Furthermore, the function even adds the chi-square statistic (<code>chisq</code>); the odds ratio (<code>OR</code>) or the relative risk (<code>RR</code>) if we set them to <code>TRUE</code>. Never mind if you are not familiar with the latter, the discussed options only illustrated how the <code>summarytools</code> package helps us to explore data and effects.</p>
+<p>In the social sciences we are often interested in comparing <em>numerical outcomes between categorical variables</em> (groups). For example, one of the penguin’s species has a higher body mass and we can examine which penguins <code>species</code> differ in terms of their body mass (<code>body_mass_g</code>). With <code>base</code> R, the <code>aggregate()</code> function lets us split the data and we are able to estimate the mean for each species.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate splits the data into subsets and computes summary statistics</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(df<span class="sc">$</span>body_mass_g, <span class="fu">list</span>(df<span class="sc">$</span>species), <span class="at">FUN =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;     Group.1        x
+#&gt; 1    Adelie 3700.662
+#&gt; 2 Chinstrap 3733.088
+#&gt; 3    Gentoo 5076.016</code></pre>
+</div>
+</div>
+<p>To calculate a group-mean looks quite complicated and I did not introduce the latter since we will systematically work on our skills to manipulate data in the next Chapter. Instead, we used a box plot to explore a continuous outcome between groups. As outlined in the book, box plots can be very helpful to compare groups even though they have graphical limitations since they do not display the data. Keep the <code>boxplot()</code> function in mind and practice one more time how it works. Inspect how penguin’s body mass differs between the species.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect group differences with a box plot</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(body_mass_g <span class="sc">~</span> species, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="images/r10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>If we examine an <em>effect between two continuous outcomes</em>, we have to keep in mind that the <code>plot</code> function returns a scatter plot and we may insert a regression line with the <code>abline</code> and the <code>lm</code> function. Do you still know how it works? Create a scatter plot to examine the association between the body mass (<code>body_mass_g</code>) and the flipper length (<code>flipper_length_mm</code>) of the <code>penguins</code>.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="9">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a scatter plot</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> df<span class="sc">$</span>body_mass_g, <span class="at">x =</span> df<span class="sc">$</span>flipper_length_mm)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># And a red regression line</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(body_mass_g <span class="sc">~</span> flipper_length_mm, <span class="at">data =</span> df),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"red"</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="images/r12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Furthermore, we learned how to calculate the correlation coefficient. The code of the next console does not work if I apply the <code>cor()</code> with the penguins data. Do you have any idea how to fix the problem?</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the correlation between x and y</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>cor_penguins <span class="ot">&lt;-</span> <span class="fu">cor</span>(df<span class="sc">$</span>body_mass_g, df<span class="sc">$</span>flipper_length_mm,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">use =</span> <span class="st">"complete"</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>cor_penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 0.8712018</code></pre>
+</div>
+</div>
+<p>By the way, the <code>cor()</code> also returns Kendall’s or Spearman’s if you adjust the <code>method</code> option:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate a rank-based measure of association</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">use =</span> <span class="st">"complete"</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="fu">c</span>(<span class="st">"pearson"</span>, <span class="st">"kendall"</span>, <span class="st">"spearman"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a href="https://easystats.github.io/effectsize/" target="_blank"><img src="https://github.com/easystats/effectsize/raw/main/man/figures/logo.png" alt="The effectsize package" align="right" width="100" style="padding:10px"></a></p>
+<p>Finally, the <code>effectsize</code> package helped us with the interpretation of Pearson’s r (and other stats, see Chapter 6). I copied the code from the book; can you adjust it to interpret the effect of the examined variables with the <code>effectsize</code> package <span class="citation" data-cites="effectsize">(<a href="references.html#ref-effectsize" role="doc-biblioref">Ben-Shachar et al. 2022</a>)</span>?</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 0.8712018</code></pre>
+</div>
+</div>
+<div class="cell" data-exercise="true" data-exercise.setup="r13setup">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use effectsize to interpret R</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>effectsize<span class="sc">::</span><span class="fu">interpret_r</span>(cor_penguins, <span class="at">rules =</span> <span class="st">"cohen1988"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "large"
+#&gt; (Rules: cohen1988)</code></pre>
+</div>
+</div>
+<p><a href="https://docs.ropensci.org/skimr/" target="_blank"><img src="https://docs.ropensci.org/skimr/reference/figures/logo.png" alt="The skimr package" align="right" width="15%" style="padding:10px"></a></p>
+<p>There are more R packages to explore data than I could possibly outline. For example, consider the <code>skimr</code> package <span class="citation" data-cites="skimr">(<a href="references.html#ref-skimr" role="doc-biblioref">Waring et al. 2022</a>)</span>. It skims a data set and returns, for example, a short summary, summary statistics, and missing values. Inspect the vignette and <code>skim()</code> the data frame.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect skimr package (and vignette)</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># vignette("skimr")</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Or examine the <code>ggpairs()</code> function from the <code>GGally</code> package <span class="citation" data-cites="GGally">(<a href="references.html#ref-GGally" role="doc-biblioref">Schloerke et al. 2021</a>)</span>. It provides many extensions to create graphs (with <code>ggplot2</code> see Chapter 7); and it also has functions to explore data and effects. The <code>ggpairs()</code> function returns a graph for a pairwise comparison of all variables. Depending on the data type, it returns bar plots, density plot, or the correlation between variables and combines all plots in one graph.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GGally: https://ggobi.github.io/ggally/</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>GGally<span class="sc">::</span><span class="fu">ggpairs</span>(df[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="images/r16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="summary" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="summary"><span class="header-section-number">2.4</span> Summary</h2>
+<p>Data exploration can be exciting since we explore something new. Unfortunately, it can be painful if the data is complex or messy. For this reason we used a simple and clean data, but we will start to manipulate complex(er) data and prepare messy data soon. Keep the following functions from Chapter 3 in mind:</p>
+<ul>
+<li><p>Get a glimpse of your data (<code>dplyr::glimpse</code>); display the structure of an object (<code>str</code>); and inspect the first or last parts of an object (<code>head/tail</code>)</p></li>
+<li><p>Create a factor variable (<code>factor</code>); levels attributes (<code>levels</code>); object labels (<code>labels</code>)</p></li>
+<li><p>Simple cross table (<code>table</code>)</p></li>
+<li><p>Get a summary (<code>summary</code>)</p></li>
+<li><p>Summary statistics (<code>min, mean, max, sd</code>)</p></li>
+<li><p>Correlation, variance and covariance (matrices) via (<code>cor</code>); or with the <code>correlation</code> package <span class="citation" data-cites="correlation">(<a href="references.html#ref-correlation" role="doc-biblioref">Makowski et al. 2022</a>)</span></p></li>
+<li><p>Graphs: Bar plots (<code>barplot</code>); histograms (<code>hist</code>), spine plot (<code>spineplot</code>), box plot (<code>boxplot</code>), scatter plot (<code>plot</code>), correlation matrix (<code>corrplot::corrplot</code>)</p></li>
+<li><p>Packages:</p>
+<ul>
+<li>The <code>summarytools</code> package provides many tables: (e.g., <code>freq, ctable</code>)</li>
+<li>The <code>DataExplorer</code> to visualize several variable at once: (e.g., <code>plot_bar</code>)</li>
+<li>The <code>effectsize</code> package to interpret results: (e.g., <code>interpret_r</code>)</li>
+</ul></li>
+</ul>
+</section>
+<section id="references" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="references"><span class="header-section-number">2.5</span> References</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-effectsize" class="csl-entry" role="listitem">
+Ben-Shachar, Mattan S., Dominique Makowski, Daniel Lüdecke, Indrajeet Patil, and Brenton M. Wiernik. 2022. <em><span class="nocase">effectsize: Indices of Effect Size</span></em>. <a href="https://CRAN.R-project.org/package=effectsize">https://CRAN.R-project.org/package=effectsize</a>.
+</div>
+<div id="ref-summarytools" class="csl-entry" role="listitem">
+Comtois, Dominic. 2022. <em><span class="nocase">summarytools: Tools to Quickly and Neatly Summarize Data</span></em>. <a href="https://CRAN.R-project.org/package=summarytools">https://CRAN.R-project.org/package=summarytools</a>.
+</div>
+<div id="ref-DataExplorer" class="csl-entry" role="listitem">
+Cui, Boxuan. 2020. <em><span>DataExplorer: Automate Data Exploration</span> and <span>Treatment</span></em>. <a href="https://CRAN.R-project.org/package=DataExplorer">https://CRAN.R-project.org/package=DataExplorer</a>.
+</div>
+<div id="ref-palmerpenguins" class="csl-entry" role="listitem">
+Horst, Allison, Alison Hill, and Kristen Gorman. 2022. <em><span class="nocase">palmerpenguins: Palmer Archipelago (Antarctica) Penguin Data</span></em>. <a href="https://CRAN.R-project.org/package=palmerpenguins">https://CRAN.R-project.org/package=palmerpenguins</a>.
+</div>
+<div id="ref-correlation" class="csl-entry" role="listitem">
+Makowski, Dominique, Brenton M. Wiernik, Indrajeet Patil, Daniel Lüdecke, and Mattan S. Ben-Shachar. 2022. <em>Correlation: <span>Methods</span> for <span>Correlation Analysis</span></em>. <a href="https://CRAN.R-project.org/package=correlation">https://CRAN.R-project.org/package=correlation</a>.
+</div>
+<div id="ref-pillar" class="csl-entry" role="listitem">
+Müller, Kirill, and Hadley Wickham. 2022. <em><span class="nocase">pillar: Coloured Formatting for Columns</span></em>. <a href="https://CRAN.R-project.org/package=pillar">https://CRAN.R-project.org/package=pillar</a>.
+</div>
+<div id="ref-GGally" class="csl-entry" role="listitem">
+Schloerke, Barret, Di Cook, Joseph Larmarange, Francois Briatte, Moritz Marbach, Edwin Thoen, Amos Elberg, and Jason Crowley. 2021. <em><span class="nocase">GGally: Extension to ggplot2</span></em>. <a href="https://CRAN.R-project.org/package=GGally">https://CRAN.R-project.org/package=GGally</a>.
+</div>
+<div id="ref-naniar" class="csl-entry" role="listitem">
+Tierney, Nicholas, Di Cook, Miles McBain, and Colin Fay. 2021. <em><span class="nocase">naniar: Data Structures, Summaries, and Visualisations for Missing Data</span></em>. <a href="https://CRAN.R-project.org/package=naniar">https://CRAN.R-project.org/package=naniar</a>.
+</div>
+<div id="ref-treischl_practice_2023" class="csl-entry" role="listitem">
+Treischl, Edgar J. 2023. <em>Practice <span>R</span>: <span>An</span> Interactive Textbook</em>. De Gruyter Oldenbourg.
+</div>
+<div id="ref-skimr" class="csl-entry" role="listitem">
+Waring, Elin, Michael Quinn, Amelia McNamara, Eduardo Arino de la Rubia, Hao Zhu, and Shannon Ellis. 2022. <em><span class="nocase">skimr: Compact and Flexible Summaries of Data</span></em>. <a href="https://CRAN.R-project.org/package=skimr">https://CRAN.R-project.org/package=skimr</a>.
+</div>
+<div id="ref-dplyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2022. <em><span class="nocase">dplyr: A Grammar of Data Manipulation</span></em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter_02.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Base R</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

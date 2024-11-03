@@ -8,9 +8,8 @@ book:
   date: last-modified
   chapters:
     - index.qmd
-    - Ch_02.qmd
-    - intro.qmd
-    - summary.qmd
+    - chapter_02.qmd
+    - chapter_03.qmd
     - references.qmd
   navbar:
     right:
