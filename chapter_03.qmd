@@ -449,4 +449,4 @@ Data exploration can be exciting since we explore something new. Unfortunately, 
     -   The `effectsize` package to interpret results: (e.g., `interpret_r`)
     
     
-## References
+

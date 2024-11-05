@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>The Practice R Tutorials - 3&nbsp; Data manipulation with dplyr</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter_05.html" rel="next">
+<link href="./chapter_03.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+</head><body class="nav-sidebar floating nav-fixed"><div id="progress-bar" style="width: 0%; height:2px; background-color: rgb(89 127 235);; position: fixed; top: 0px; z-index: 2000;"></div>
+
+<script id="progressbar" type="text/javascript">
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const bar = document.querySelector('#progress-bar');
+    const post = document.querySelector('#quarto-content');
+    const html = document.documentElement;
+    
+    const height = post.scrollHeight + post.offsetTop;
+    
+    window.addEventListener('scroll', () => {
+        bar.style.width = (html.scrollTop / (height- html.clientHeight)) * 100 + '%';
+    });
+});
+</script>
+
+
+
+
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">The Practice R Tutorials</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgar-treischl/PracticeR_Tutorials" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_04.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data manipulation with dplyr</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Base R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Exploration</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_04.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data manipulation with dplyr</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prepare categorical variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#select" id="toc-select" class="nav-link active" data-scroll-target="#select"><span class="header-section-number">3.1</span> Select</a></li>
+  <li><a href="#filter" id="toc-filter" class="nav-link" data-scroll-target="#filter"><span class="header-section-number">3.2</span> Filter</a></li>
+  <li><a href="#mutate" id="toc-mutate" class="nav-link" data-scroll-target="#mutate"><span class="header-section-number">3.3</span> Mutate</a></li>
+  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"><span class="header-section-number">3.4</span> Summarize</a></li>
+  <li><a href="#arrange" id="toc-arrange" class="nav-link" data-scroll-target="#arrange"><span class="header-section-number">3.5</span> Arrange</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.6</span> Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data manipulation with dplyr</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Welcome to tutorial of the <a href="https://www.degruyter.com/document/isbn/9783110704969/html?lang=de" title="Go to the website">Practice R</a> book <span class="citation" data-cites="treischl_practice_2023">(<a href="references.html#ref-treischl_practice_2023" role="doc-biblioref">Treischl 2023</a>)</span>. Practice R is a text book for the social sciences which provides several tutorials supporting students to learn R. Feel free to inspect the tutorials even if you are not familiar with the book, but keep in mind these tutorials are supposed to complement the Practice R book. <a href="https://dplyr.tidyverse.org/" target="_blank"><img src="https://dplyr.tidyverse.org/logo.png" alt="The dplyr package" align="right" width="100"></a></p>
+<p>In Chapter 4 we used the <code>dplyr</code> package to manipulate data <span class="citation" data-cites="dplyr">(<a href="references.html#ref-dplyr" role="doc-biblioref">Wickham et al. 2022</a>)</span>. In addition, we will learn how to systemically manipulate categorical variables with the <code>forcats</code> package <span class="citation" data-cites="forcats">(<a href="references.html#ref-forcats" role="doc-biblioref">Wickham 2022</a>)</span> in Chapter 5. Both packages help you to handle many common steps to manipulate data. This tutorial gives a <code>dplyr</code> recap and asks you to apply the introduced functions.</p>
+<p>As the next output shows, we use the <code>gss2016</code> again to select variables, create a filter, generate new variables, and summarize the data. Ask R to provide a description of the data (<code>?data</code>) if you are not familiar with the <code>gss2016</code> data yet.</p>
+<div class="cell" data-exercise="true" data-exercise.eval="true">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The setup of tutorial 4</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PracticeR)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gss2016)[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 6 × 9
+#&gt;    year    id ballot     age childs sibs  degree race  sex  
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;labell&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;lab&gt; &lt;fct&gt;  &lt;fct&gt; &lt;fct&gt;
+#&gt; 1  2016     1 1           47      3 2     Bache… White Male 
+#&gt; 2  2016     2 2           61      0 3     High … White Male 
+#&gt; 3  2016     3 3           72      2 3     Bache… White Male 
+#&gt; 4  2016     4 1           43      4 3     High … White Fema…
+#&gt; 5  2016     5 3           55      2 2     Gradu… White Fema…
+#&gt; # ℹ 1 more row</code></pre>
+</div>
+</div>
+<section id="select" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="select"><span class="header-section-number">3.1</span> Select</h2>
+<p>Especially in case of large and cluttered data, we use <code>select()</code> to specify which variables we work with. For example, pick only one variable such as school <code>degree</code> from the <code>gss2016</code> data.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select a variable</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(gss2016, degree)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 2,867 × 1
+#&gt;   degree     
+#&gt;   &lt;fct&gt;      
+#&gt; 1 Bachelor   
+#&gt; 2 High School
+#&gt; 3 Bachelor   
+#&gt; 4 High School
+#&gt; 5 Graduate   
+#&gt; # ℹ 2,862 more rows</code></pre>
+</div>
+</div>
+<p><code>Select</code> comes with handy functions and applies the same logic as <code>base</code> R. For example, select several columns by providing a start (e.g., <code>id</code>) and endpoint (e.g., <code>degree</code>).</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select all variables from x to y</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(gss2016, id<span class="sc">:</span>degree) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 6 × 6
+#&gt;      id ballot       age childs sibs       degree     
+#&gt;   &lt;dbl&gt; &lt;labelled&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;labelled&gt; &lt;fct&gt;      
+#&gt; 1     1 1             47      3 2          Bachelor   
+#&gt; 2     2 2             61      0 3          High School
+#&gt; 3     3 3             72      2 3          Bachelor   
+#&gt; 4     4 1             43      4 3          High School
+#&gt; 5     5 3             55      2 2          Graduate   
+#&gt; # ℹ 1 more row</code></pre>
+</div>
+</div>
+<p>Maybe we need all columns except the variables shown in the last output. Ask for the opposite and insert parentheses and a minus signs to turn the selection around.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Turn around the selection</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(gss2016, <span class="sc">-</span>(id<span class="sc">:</span>degree)) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 6 × 27
+#&gt;    year race  sex    region     income16 relig marital padeg
+#&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;fct&gt;      &lt;fct&gt;    &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt;
+#&gt; 1  2016 White Male   New Engla… $170000… None  Married Grad…
+#&gt; 2  2016 White Male   New Engla… $50000 … None  Never … Lt H…
+#&gt; 3  2016 White Male   New Engla… $75000 … Cath… Married High…
+#&gt; 4  2016 White Female New Engla… $170000… Cath… Married &lt;NA&gt; 
+#&gt; 5  2016 White Female New Engla… $170000… None  Married Bach…
+#&gt; # ℹ 1 more row
+#&gt; # ℹ 19 more variables: madeg &lt;fct&gt;, partyid &lt;fct&gt;,
+#&gt; #   polviews &lt;fct&gt;, happy &lt;fct&gt;, partners &lt;fct&gt;,
+#&gt; #   grass &lt;fct&gt;, zodiac &lt;fct&gt;, pres12 &lt;labelled&gt;,
+#&gt; #   wtssall &lt;dbl&gt;, income_rc &lt;fct&gt;, agegrp &lt;fct&gt;,
+#&gt; #   ageq &lt;fct&gt;, siblings &lt;fct&gt;, kids &lt;fct&gt;, religion &lt;fct&gt;,
+#&gt; #   bigregion &lt;fct&gt;, partners_rc &lt;fct&gt;, obama &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<p>The <code>gss2016</code> data does not contain variables with a running number nor other systematic variable names. However, <code>dplyr</code> helps to select such variables without much effort. Consider toy data with several measurements and running numbers to illustrate how we can select such variables efficiently.</p>
+<div class="cell" data-exercise="true" data-exercise.eval="true" data-exercise.lines="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A new df to illustrate</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">measurement_1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">measurement_2 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x2 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x3 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">other_variables =</span> <span class="dv">1</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Suppose we measured a variables several times and all start with an identical name (e.g., <code>measurement_</code>). Select all variables which start (or end) with a certain string. Thus, insert the <code>starts_with()</code> function and select all <code>measurement</code> variables.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r5a">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select variables that start with a string</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(df, <span class="fu">starts_with</span>(<span class="st">"measurement"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 3 × 2
+#&gt;   measurement_1 measurement_2
+#&gt;           &lt;int&gt;         &lt;int&gt;
+#&gt; 1             1             1
+#&gt; 2             2             2
+#&gt; 3             3             3</code></pre>
+</div>
+</div>
+<p>Or pick variables with the running number. The <code>num_range</code> functions needs the name (<code>x</code>) and the running number.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r5a">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select based on a running number</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(df, <span class="fu">num_range</span>(<span class="st">"x"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 3 × 3
+#&gt;      x1    x2    x3
+#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+#&gt; 1     1     1     1
+#&gt; 2     2     2     2
+#&gt; 3     3     3     3</code></pre>
+</div>
+</div>
+<p>The package offers more helpers to select variables than I can possibly outline. For example, <code>contains()</code> checks if a variable includes a certain word; <code>matches()</code> let us specify search patterns (regular expression, see Chapter 10); and we can also include other functions to select variables. For example, the <code>is.numeric</code> function checks if an input is numeric and we can combine it with <code>where()</code> to select columns only <em>where</em> the content is numeric.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Insert a function to select variables</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 2,867 × 10
+#&gt;    year    id ballot   age childs sibs  pres12 wtssall obama
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;labe&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;lab&gt; &lt;labe&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1  2016     1 1         47      3 2     3        0.957     0
+#&gt; 2  2016     2 2         61      0 3     1        0.478     1
+#&gt; 3  2016     3 3         72      2 3     2        0.957     0
+#&gt; 4  2016     4 1         43      4 3     2        1.91      0
+#&gt; 5  2016     5 3         55      2 2     1        1.44      1
+#&gt; # ℹ 2,862 more rows
+#&gt; # ℹ 1 more variable: income &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Next, we filter data but since all R outputs are large due to the <code>gss2016</code> data, let us first create a smaller subset to reduce the size of the output and the length of this document.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select a smaller subset for the rest of this tutorial</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="ot">&lt;-</span> <span class="fu">select</span>(PracticeR<span class="sc">::</span>gss2016, year<span class="sc">:</span>sex, income)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="filter" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="filter"><span class="header-section-number">3.2</span> Filter</h2>
+<p>Use <code>filter()</code> to subset the data. The <code>dplyr</code> filters the data and returns a new data frame depending on the specified conditions. Use one or several relational or logical operators to select observations. For example, suppose you want to analyze persons who have a bachelor’s <code>degree</code> only.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply a filter</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">"Bachelor"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 6 × 10
+#&gt;    year    id ballot     age childs sibs  degree race  sex  
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;labell&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;lab&gt; &lt;fct&gt;  &lt;fct&gt; &lt;fct&gt;
+#&gt; 1  2016     1 1           47      3 2     Bache… White Male 
+#&gt; 2  2016     3 3           72      2 3     Bache… White Male 
+#&gt; 3  2016    37 2           59      2 2     Bache… White Male 
+#&gt; 4  2016    38 1           43      2 6     Bache… White Fema…
+#&gt; 5  2016    39 3           58      0 1     Bache… White Fema…
+#&gt; # ℹ 1 more row
+#&gt; # ℹ 1 more variable: income &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Can you adjust the code so that two conditions have to be fulfilled simultaneously. For example, keep only observations from adults (18 years and older) with a bachelor’s degree.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine several conditions</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">"Bachelor"</span> <span class="sc">&amp;</span> age <span class="sc">&gt;</span> <span class="dv">17</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 6 × 10
+#&gt;    year    id ballot     age childs sibs  degree race  sex  
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;labell&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;lab&gt; &lt;fct&gt;  &lt;fct&gt; &lt;fct&gt;
+#&gt; 1  2016     1 1           47      3 2     Bache… White Male 
+#&gt; 2  2016     3 3           72      2 3     Bache… White Male 
+#&gt; 3  2016    37 2           59      2 2     Bache… White Male 
+#&gt; 4  2016    38 1           43      2 6     Bache… White Fema…
+#&gt; 5  2016    39 3           58      0 1     Bache… White Fema…
+#&gt; # ℹ 1 more row
+#&gt; # ℹ 1 more variable: income &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>As outlined, keep your <code>base</code> R skills in mind when selecting or filtering data. For example, keep all degrees but exclude persons who have a <code>Bachelor</code>.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># All degrees, but not! Bachelors</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">!=</span> <span class="st">"Bachelor"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 6 × 10
+#&gt;    year    id ballot     age childs sibs  degree race  sex  
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;labell&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;lab&gt; &lt;fct&gt;  &lt;fct&gt; &lt;fct&gt;
+#&gt; 1  2016     2 2           61      0 3     High … White Male 
+#&gt; 2  2016     4 1           43      4 3     High … White Fema…
+#&gt; 3  2016     5 3           55      2 2     Gradu… White Fema…
+#&gt; 4  2016     6 2           53      2 2     Junio… White Fema…
+#&gt; 5  2016     7 1           50      2 2     High … White Male 
+#&gt; # ℹ 1 more row
+#&gt; # ℹ 1 more variable: income &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Use the <code>operators()</code> function from the <code>PracticeR</code> package when you have trouble to remember how <code>logical</code> and <code>relational</code> operators are implemented. The function inserts and runs examples via the console.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>PracticeR<span class="sc">::</span><span class="fu">operators</span>(<span class="st">"logical"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ── Logical Operators</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; x &lt;- TRUE</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; y &lt;- FALSE</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; #Elementwise logical AND</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; x &amp; y == TRUE</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] FALSE</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; #Elementwise logical OR</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; x | y == TRUE</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] TRUE</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; #Elementwise OR</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; xor(x, y)</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] TRUE</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; #Logical NOT</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; !x</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] FALSE</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; #In operator</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 1:3 %in% rep(1:2)</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co"># [1]  TRUE  TRUE FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mutate" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="mutate"><span class="header-section-number">3.3</span> Mutate</h2>
+<p>In Chapter 4 I outline several ways to generate new variables based on observed ones. For example, raw data often contains a person’s year of birth but not their age. With <code>mutate()</code> we can extend the data frame and estimate such a variable. Unfortunately, the <code>gss2016</code> has an <code>age</code> variable, but the variable does only reveal their age when the survey was conducted. To recap how <code>mutate()</code> works, recreate their birth year and a recent age variable, say for the year 2023.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="9">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create birth_year and a recent (year: 2023) age variable</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, year, age) <span class="sc">|&gt;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">birth_year =</span> year <span class="sc">-</span> age,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_2023 =</span> <span class="dv">2023</span> <span class="sc">-</span> birth_year</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 6 × 5
+#&gt;      id  year   age birth_year age_2023
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1     1  2016    47       1969       54
+#&gt; 2     2  2016    61       1955       68
+#&gt; 3     3  2016    72       1944       79
+#&gt; 4     4  2016    43       1973       50
+#&gt; 5     5  2016    55       1961       62
+#&gt; # ℹ 1 more row</code></pre>
+</div>
+</div>
+<p>Keep in mind that you can use relational and logical operators, as well other functions (e.g., log, rankings, etc.) to generate new variables. For example, generate a logical variable that indicates whether a person was an adult (older than 17) in the year 2016. The <code>if_else()</code> function helps you with this job.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="9">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In theory: if_else(condition, true, false, missing = NULL)</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, year, age) <span class="sc">|&gt;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">adult =</span> <span class="fu">if_else</span>(age <span class="sc">&gt;</span> <span class="dv">17</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 6 × 4
+#&gt;      id  year   age adult
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;
+#&gt; 1     1  2016    47 TRUE 
+#&gt; 2     2  2016    61 TRUE 
+#&gt; 3     3  2016    72 TRUE 
+#&gt; 4     4  2016    43 TRUE 
+#&gt; 5     5  2016    55 TRUE 
+#&gt; # ℹ 1 more row</code></pre>
+</div>
+</div>
+<p>In terms of generating new variables, also keep the <code>case_when()</code> function in mind, which provides a very flexible approach. Suppose we need to identify parents with a academic background. Parents educational background has many levels or attributes in the <code>gss2016</code> data, which makes a first attempt harder to apply (and we learn more about factor variables in Chapter 5). For this reason I created a smaller toy data set and I started to prepare the code. Can you complete it? The variable <code>academic_parents</code> is supposed to identify persons with a high educational background (<code>education</code>) with one or more <code>kids</code>. All other conditions are set to <code>FALSE</code>.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="11">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data to illustrate</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">kids =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="cn">NA</span>),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">educ =</span> <span class="fu">c</span>(<span class="st">"high"</span>, <span class="st">"low"</span>, <span class="st">"high"</span>, <span class="st">"low"</span>, <span class="cn">NA</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># In theory: case_when(condition ~ value)</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">academic_parents =</span> <span class="fu">case_when</span>(</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    kids <span class="sc">&gt;=</span> <span class="dv">1</span> <span class="sc">&amp;</span> educ <span class="sc">==</span> <span class="st">"high"</span> <span class="sc">~</span> <span class="st">"TRUE"</span>,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"FALSE"</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;   kids educ academic_parents
+#&gt; 1    0 high            FALSE
+#&gt; 2    1  low            FALSE
+#&gt; 3    3 high             TRUE
+#&gt; 4    0  low            FALSE
+#&gt; 5   NA &lt;NA&gt;            FALSE</code></pre>
+</div>
+</div>
+</section>
+<section id="summarize" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="summarize"><span class="header-section-number">3.4</span> Summarize</h2>
+<p>The <code>summarize()</code> function collapses several columns into a single row. By the way, the <code>dplyr</code> package understands both, British (e.g., <code>summarise</code>) and American English (e.g.&nbsp;<code>summarize</code>) and it’s up to you to decide which one you prefer.</p>
+<p>Let’s calculate the mean age of the survey participants. As outlined in Practice R, the variable has missing values which is why we need to drop them first. In Chapter 5 we will focus on this problem and we learn more about the consequences of such decisions. I already excluded missing values, can you <code>summarize()</code> the age?</p>
+<div class="cell" data-exercise="true" data-exercise.lines="8">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude missing values but consider the consequences (see Chapter 5)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="ot">&lt;-</span> gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">drop_na</span>(age, sex)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize age</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">mean_age =</span> <span class="fu">mean</span>(age))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 1 × 1
+#&gt;   mean_age
+#&gt;      &lt;dbl&gt;
+#&gt; 1     49.2</code></pre>
+</div>
+</div>
+<p>The <code>dplyr</code> package comes with several help functions to summarize data. For example, to count the number of observation per group (e.g., for <code>sex</code>), split the data by groups (<code>group_by</code>) and apply the <code>n()</code> function.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r15">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># County by (sex)</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 2 × 2
+#&gt;   sex    count
+#&gt;   &lt;fct&gt;  &lt;int&gt;
+#&gt; 1 Male    1272
+#&gt; 2 Female  1585</code></pre>
+</div>
+</div>
+<p>Moreover, compare the groups by calculating the <code>median</code> age instead of the mean; add the standard deviation (<code>sd</code>); and count the number of distinct values (<code>n_distinct</code>) of the <code>degree</code> variable.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="9" data-exercise.setup="r15">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dplyr has more summary functions</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_age =</span> <span class="fu">sd</span>(age),</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">distinct_degree =</span> <span class="fu">n_distinct</span>(degree)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 2 × 4
+#&gt;   sex    median_age sd_age distinct_degree
+#&gt;   &lt;fct&gt;       &lt;dbl&gt;  &lt;dbl&gt;           &lt;int&gt;
+#&gt; 1 Male           48   17.4               6
+#&gt; 2 Female         50   17.9               6</code></pre>
+</div>
+</div>
+<p>In the last examples we grouped the data and then collapsed it. The counterpart to <code>group</code> is <code>ungroup()</code> which we may add as a last step to disperse the data again. For example, we can estimate how old men or women are on average and add this information to the original data frame. Use <code>mutate()</code> instead of <code>summarise()</code> to see the logic behind <code>ungroup</code>.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="9" data-exercise.setup="r15">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mutate ungroups the data again</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, sex, age) <span class="sc">|&gt;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">round</span>(<span class="fu">mean</span>(age), <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 2,857 × 4
+#&gt; # Groups:   sex [2]
+#&gt;      id sex      age count
+#&gt;   &lt;dbl&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1     1 Male      47  48.3
+#&gt; 2     2 Male      61  48.3
+#&gt; 3     3 Male      72  48.3
+#&gt; 4     4 Female    43  49.8
+#&gt; 5     5 Female    55  49.8
+#&gt; # ℹ 2,852 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="arrange" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="arrange"><span class="header-section-number">3.5</span> Arrange</h2>
+<p>Last but not least, keep the <code>arrange()</code> function in mind. It is easy to apply and I don’t believe there is much to practice. However, it gives us the chance to repeat how <code>transmute()</code> and the <code>between()</code> function works.</p>
+<p>Consider the steps to build a restricted age sample to examine adults only. Use <code>mutate</code> to create a logical variable (<code>age_filter</code>) that indicates if a person is between 18 and 65. Furthermore, explore the difference between <code>mutate()</code> and <code>transmute()</code> if you can’t remember it.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="9">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a restricted analysis sample</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># between: x &gt;= left &amp; x &lt;= right</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(age,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_filter =</span> <span class="fu">between</span>(age, <span class="dv">18</span>, <span class="dv">65</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 2,857 × 2
+#&gt;     age age_filter
+#&gt;   &lt;dbl&gt; &lt;lgl&gt;     
+#&gt; 1    47 TRUE      
+#&gt; 2    61 TRUE      
+#&gt; 3    72 FALSE     
+#&gt; 4    43 TRUE      
+#&gt; 5    55 TRUE      
+#&gt; # ℹ 2,852 more rows</code></pre>
+</div>
+</div>
+<p>Next, we need a <code>filter()</code> to restrict the sample, but how can we know that code worked? We can inspect the entire data frame with <code>View</code>, but we can also use <code>arrange()</code> to inspect if the filter was correctly applied. Sort in ascending and descending (<code>desc</code>) order.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="9">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter and arrange the data</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>gss2016 <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(age,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_filter =</span> <span class="fu">between</span>(age, <span class="dv">18</span>, <span class="dv">65</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age_filter <span class="sc">==</span> <span class="st">"TRUE"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(age)) <span class="sc">|&gt;</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 6 × 2
+#&gt;     age age_filter
+#&gt;   &lt;dbl&gt; &lt;lgl&gt;     
+#&gt; 1    65 TRUE      
+#&gt; 2    65 TRUE      
+#&gt; 3    65 TRUE      
+#&gt; 4    65 TRUE      
+#&gt; 5    65 TRUE      
+#&gt; # ℹ 1 more row</code></pre>
+</div>
+</div>
+<p>The <code>dplyr</code> package offers many functions to manipulate data and this tutorial only summarizes the main functions. Consider the cheat sheet and the package website for more information.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The dplyr website</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>PracticeR<span class="sc">::</span><span class="fu">show_link</span>(<span class="st">"dplyr"</span>, <span class="at">browse =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "https://dplyr.tidyverse.org/"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Keep in mind that data preparation steps may appear simple, but only as long as we are not supposed to prepare data on our own. In the latter case we will often need several attempts to come up with a solution that works. Thus, be patient with yourself when your first attempts will not work. Most of the time we all need more than one shot to come up with a workable solution. In addition, we will use the package one more time to combine data in Chapter 5 and other <code>dplyr</code> functions will appear through the Practice R book. Thus, there will be plenty of opportunities to apply and develop your <code>dplyr</code> skills.</p>
+<p>There are often different approaches that lead to the same result. As the artwork by Jake Clark illustrates and the Practice R info box about <em>data manipulation approaches</em> underlines, the <code>subset()</code> function from <code>base</code> R does essentially the same as <code>dplyr::filter</code>. Base R provides the most stable solution, while <code>dplyr</code> is more verbose and often easier to learn. Don’t perceive them as two different dialects that forces us to stick to one approach. Instead, embrace them both because you will come across different approaches if you use Google to solve a problem. Fortunately, many roads lead to Rome.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.tumblr.com/jake-clark/100946716432"><img src="https://github.com/edgar-treischl/Scripts_PracticeR/blob/main/images/meme.png?raw=true" class="img-fluid figure-img" style="width:50.0%"></a></p>
+<figcaption class="figure-caption">Artwork by Jake Clark</figcaption>
+</figure>
+</div>
+</section>
+<section id="summary" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.6</span> Summary</h2>
+<p>Keep the main <code>dplyr</code> functions in mind, among them:</p>
+<ul>
+<li>Keep rows that match a condition (<code>filter</code>)</li>
+<li>Order rows using column values (<code>arrange</code>)</li>
+<li>Keep or drop columns using their names and types (<code>select</code>)</li>
+<li>Create, modify, and delete columns (<code>mutate, transmute</code>)</li>
+<li>Summarize each group down to one row (<code>summarize</code>)</li>
+<li>Change column order (<code>relocate</code>)</li>
+<li>Vectorized if-else (<code>if_else</code>)</li>
+<li>A general vectorized if-else (<code>case_when</code>)</li>
+<li>Apply a function (or functions) across multiple columns (<code>across</code>)</li>
+<li>Select all variables or the last variable (e.g., <code>everything</code>)</li>
+</ul>
+<p>And the following <code>base</code> functions:</p>
+<ul>
+<li>The names of an object (<code>names</code>)</li>
+<li>Sub-setting vectors, matrices and data frames (<code>subset</code>)</li>
+<li>Apply a function over a list or vector (<code>lapply, sapply</code>)</li>
+<li>Read R code from a file, a connection or expressions (<code>source</code>)</li>
+</ul>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-treischl_practice_2023" class="csl-entry" role="listitem">
+Treischl, Edgar J. 2023. <em>Practice <span>R</span>: <span>An</span> Interactive Textbook</em>. De Gruyter Oldenbourg.
+</div>
+<div id="ref-forcats" class="csl-entry" role="listitem">
+Wickham, Hadley. 2022. <em><span class="nocase">forcats: Tools for Working with Categorical Variables (Factors)</span></em>. <a href="https://CRAN.R-project.org/package=forcats">https://CRAN.R-project.org/package=forcats</a>.
+</div>
+<div id="ref-dplyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2022. <em><span class="nocase">dplyr: A Grammar of Data Manipulation</span></em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter_03.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Exploration</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter_05.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prepare categorical variables</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
