@@ -5,7 +5,7 @@ knitr::opts_chunk$set(
   fig.height = 2.5,
   #fig.width = 6,
   #fig.height = 4,
-  fig.path = "images/",
+  fig.path = "images/ch7/",
   echo = TRUE,
   warning = FALSE,
   message = FALSE,
@@ -593,7 +593,7 @@ hchart(babynames_df, "line",
 
 ```{r Fig21, out.width='75%', echo=FALSE, eval=T}
 #| fig.cap='\\label{Fig21}The highcharter package'
-knitr::include_graphics('images/highcharter.png')
+knitr::include_graphics('images/ch7/highcharter.png')
 ```
 
 
@@ -602,7 +602,7 @@ Learning a new package and creating interactive graphs might be too far reaching
 
 ```{r Fig22, out.width='75%', echo=FALSE, eval=T}
 #| fig.cap='\\label{Fig21}The plotly package'
-knitr::include_graphics('images/plotly.png')
+knitr::include_graphics('images/ch7/plotly.png')
 ```
 
 Consider reading *Interactive web-based data visualization with R, plotly, and shiny* by Carson Sievert if you want to improve your interactive visualization skills
