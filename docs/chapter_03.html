@@ -373,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a barplot</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(n <span class="sc">~</span> island, <span class="at">data =</span> count_island)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="images/ch3/r7-1.png" class="img-fluid" width="672"></p>
+<p><img src="images/ch_03/r7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><a href="https://boxuancui.github.io/DataExplorer/" target="_blank"><img src="https://github.com/boxuancui/DataExplorer/raw/master/man/figures/logo.png" alt="The DataExplorer package" align="right" width="100" style="padding:10px"></a></p>
@@ -382,7 +382,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect all or several plots at once</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>DataExplorer<span class="sc">::</span><span class="fu">plot_bar</span>(df[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="images/ch3/r14-1.png" class="img-fluid" width="672"></p>
+<p><img src="images/ch_03/r14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -408,7 +408,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a histogram</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df<span class="sc">$</span>body_mass_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="images/ch3/r8-1.png" class="img-fluid" width="672"></p>
+<p><img src="images/ch_03/r8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Keep in mind that we only explored the data for the first time. We did not clean the data nor did we prepare the variables. We have to be explicit about missing values when we want to apply functions such as the <code>mean</code>. The function returns <code>NA</code>, but only because of a missing values problem. Can you remember how to fix this problem and estimate, for example, the mean?</p>
@@ -431,7 +431,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/ch3/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="images/ch_03/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -504,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect group differences with a box plot</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(body_mass_g <span class="sc">~</span> species, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="images/ch3/r10-1.png" class="img-fluid" width="672"></p>
+<p><img src="images/ch_03/r10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>If we examine an <em>effect between two continuous outcomes</em>, we have to keep in mind that the <code>plot</code> function returns a scatter plot and we may insert a regression line with the <code>abline</code> and the <code>lm</code> function. Do you still know how it works? Create a scatter plot to examine the association between the body mass (<code>body_mass_g</code>) and the flipper length (<code>flipper_length_mm</code>) of the <code>penguins</code>.</p>
@@ -517,7 +517,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"red"</span></span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="images/ch3/r12-1.png" class="img-fluid" width="672"></p>
+<p><img src="images/ch_03/r12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Furthermore, we learned how to calculate the correlation coefficient. The code of the next console does not work if I apply the <code>cor()</code> with the penguins data. Do you have any idea how to fix the problem?</p>
@@ -566,7 +566,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GGally: https://ggobi.github.io/ggally/</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>GGally<span class="sc">::</span><span class="fu">ggpairs</span>(df[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="images/ch3/r16-1.png" class="img-fluid" width="672"></p>
+<p><img src="images/ch_03/r16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>

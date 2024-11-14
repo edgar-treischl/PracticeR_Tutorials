@@ -5,7 +5,7 @@ knitr::opts_chunk$set(
   fig.height = 4,
   #fig.width = 6,
   #fig.height = 4,
-  fig.path = "images/ch3/",
+  fig.path = "images/ch_03/",
   echo = TRUE,
   warning = FALSE,
   message = FALSE,
