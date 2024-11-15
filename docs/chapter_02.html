@@ -137,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
@@ -232,6 +233,18 @@ document.addEventListener("DOMContentLoaded", function() {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapter_08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Create tables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Automate work</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -321,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>a <span class="sc">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>#&gt; Error: &lt;text&gt;:2:4: unexpected '&lt;'
+<pre><code>#&gt; Error in parse(text = input): &lt;text&gt;:2:4: unexpected '&lt;'
 #&gt; 1: #Assigning the values the wrong way
 #&gt; 2: a -&lt;
 #&gt;       ^</code></pre>
@@ -346,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Check parenthesis</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">6</span>))), digits <span class="ot">=</span> <span class="dv">2</span><span class="er">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>#&gt; Error: &lt;text&gt;:2:24: unexpected ','
+<pre><code>#&gt; Error in parse(text = input): &lt;text&gt;:2:24: unexpected ','
 #&gt; 1: #Check parenthesis
 #&gt; 2: round(mean(c(1, 4, 6))),
 #&gt;                           ^</code></pre>
@@ -366,7 +379,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mean_a <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>maen_a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>#&gt; Error in eval(expr, envir, enclos): object 'maen_a' not found</code></pre>
+<pre><code>#&gt; Error: object 'maen_a' not found</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -513,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>#&gt; Error in eval(expr, envir, enclos): object 'result' not found</code></pre>
+<pre><code>#&gt; Error: object 'result' not found</code></pre>
 </div>
 </div>
 <p>We will learn how to fix such problem in a systematic manner later, for now just keep in mind that such an error message might be due to messy, not yet prepared data. Or suppose you tried to estimate the sum but R tells you that the code includes an <em>unexpected numeric constant</em>. Any idea what that means and how to fix the example code of the next console?</p>
@@ -521,7 +534,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Cryptic error: Unexpected numeric constant</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>#&gt; Error: &lt;text&gt;:2:12: unexpected numeric constant
+<pre><code>#&gt; Error in parse(text = input): &lt;text&gt;:2:12: unexpected numeric constant
 #&gt; 1: #Cryptic error: Unexpected numeric constant
 #&gt; 2: sum(c(3, 2 1
 #&gt;               ^</code></pre>
@@ -540,7 +553,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Tom"</span>, <span class="st">"Diana"</span>___<span class="st">"Pete"</span>)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>names</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>#&gt; Error: &lt;text&gt;:2:26: unexpected input
+<pre><code>#&gt; Error in parse(text = input): &lt;text&gt;:2:26: unexpected input
 #&gt; 1: #Cryptic error: Unexpected string constant
 #&gt; 2: names &lt;- c("Tom", "Diana"_
 #&gt;                             ^</code></pre>
@@ -560,7 +573,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(x <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>#&gt; Error: &lt;text&gt;:3:9: unexpected symbol
+<pre><code>#&gt; Error in parse(text = input): &lt;text&gt;:3:9: unexpected symbol
 #&gt; 2: x &lt;- mean(c(1:3))
 #&gt; 3: round(x digits
 #&gt;            ^</code></pre>

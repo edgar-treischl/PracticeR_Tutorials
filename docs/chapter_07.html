@@ -83,7 +83,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./chapter_08.html" rel="next">
 <link href="./chapter_06.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+
 
 
 
@@ -228,6 +229,18 @@ document.addEventListener("DOMContentLoaded", function() {
   <div class="sidebar-item-container"> 
   <a href="./chapter_07.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualize data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Create tables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Automate work</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -366,7 +379,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <pre><code>#&gt; Rows: 615
 #&gt; Columns: 2
 #&gt; $ group   &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A…
-#&gt; $ outcome &lt;dbl&gt; 10.016980, 11.203247, 10.053949, 12.035642, 11.698082, 12.8889…</code></pre>
+#&gt; $ outcome &lt;dbl&gt; 13.145077, 10.999010, 10.573656, 12.777334, 13.359096, 13.2317…</code></pre>
 </div>
 </div>
 <p>Say you estimated a box plot to examine the differences between the groups. At first glance there seems to be a large differences between groups as the first box plot reveals, but are we comparing on fair grounds? See what happens if you add a <code>geom_jitter()</code>. It displays observations with points, but compared to a <code>geom_point</code> it adds a small amount of random variation to reduce over plotting.</p>
@@ -424,12 +437,12 @@ document.addEventListener("DOMContentLoaded", function() {
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;   group  outcome num  group_N
-#&gt; 1     A 10.01698 100 A\nN=100
-#&gt; 2     A 11.20325 100 A\nN=100
-#&gt; 3     A 10.05395 100 A\nN=100
-#&gt; 4     A 12.03564 100 A\nN=100
-#&gt; 5     A 11.69808 100 A\nN=100
-#&gt; 6     A 12.88894 100 A\nN=100</code></pre>
+#&gt; 1     A 13.14508 100 A\nN=100
+#&gt; 2     A 10.99901 100 A\nN=100
+#&gt; 3     A 10.57366 100 A\nN=100
+#&gt; 4     A 12.77733 100 A\nN=100
+#&gt; 5     A 13.35910 100 A\nN=100
+#&gt; 6     A 13.23174 100 A\nN=100</code></pre>
 </div>
 </div>
 <p>Now we can use the new variable (<code>group_N</code>) as <code>x</code> and include the sample size. It goes without saying that there are more ways to improve a box plot (and to include text). For example, we can use a <code>geom_violin()</code> to examine the distribution, as the second plot on the right side shows.</p>
@@ -476,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;      value                                        label
-#&gt; 1 33.03453 N = 615 \n Mean = 13.09 \n Median = 12.91 \n</code></pre>
+#&gt; 1 29.92191 N = 615 \n Mean = 13.06 \n Median = 12.99 \n</code></pre>
 </div>
 </div>
 <p>Regardless of the approach, keep in mind that a box plot does not show the data nor does it display the distribution. Compared to that, the <code>geom_jitter()</code> displays the data and the violin plot reveals the underlying distribution.</p>
@@ -1008,6 +1021,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./chapter_06.html" class="pagination-link">
@@ -1015,8 +1029,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapter_08.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Create tables</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
