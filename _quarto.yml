@@ -5,6 +5,7 @@ project:
 book:
   title: "The Practice R Tutorials"
   author: "Edgar J. Treischl"
+  reader-mode: true
   date: last-modified
   chapters:
     - index.qmd
