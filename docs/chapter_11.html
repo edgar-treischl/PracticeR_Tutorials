@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>The Practice R Tutorials - 9&nbsp; 11 Collect data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./chapter_10.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+</head><body class="nav-sidebar floating nav-fixed"><div id="progress-bar" style="width: 0%; height:2px; background-color: rgb(89 127 235);; position: fixed; top: 0px; z-index: 2000;"></div>
+
+<script id="progressbar" type="text/javascript">
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const bar = document.querySelector('#progress-bar');
+    const post = document.querySelector('#quarto-content');
+    const html = document.documentElement;
+    
+    const height = post.scrollHeight + post.offsetTop;
+    
+    window.addEventListener('scroll', () => {
+        bar.style.width = (html.scrollTop / (height- html.clientHeight)) * 100 + '%';
+    });
+});
+</script>
+
+
+
+
+
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">The Practice R Tutorials</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edgar-treischl/PracticeR_Tutorials" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_11.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">11 Collect data</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Base R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Exploration</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data manipulation with dplyr</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prepare categorical variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Analyze data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualize data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Create tables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Automate work</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_11.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">11 Collect data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#detect-matches" id="toc-detect-matches" class="nav-link active" data-scroll-target="#detect-matches"><span class="header-section-number">9.1</span> Detect matches</a></li>
+  <li><a href="#mutate-strings" id="toc-mutate-strings" class="nav-link" data-scroll-target="#mutate-strings"><span class="header-section-number">9.2</span> Mutate strings</a></li>
+  <li><a href="#subset-strings" id="toc-subset-strings" class="nav-link" data-scroll-target="#subset-strings"><span class="header-section-number">9.3</span> Subset strings</a></li>
+  <li><a href="#join-and-splits" id="toc-join-and-splits" class="nav-link" data-scroll-target="#join-and-splits"><span class="header-section-number">9.4</span> Join and splits</a></li>
+  <li><a href="#length-and-order" id="toc-length-and-order" class="nav-link" data-scroll-target="#length-and-order"><span class="header-section-number">9.5</span> Length and order</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">9.6</span> Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">11 Collect data</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Welcome to the collect data tutorial of the <a href="https://www.degruyter.com/document/isbn/9783110704969/html?lang=de" title="Go to the website">Practice R</a> book <span class="citation" data-cites="treischl_practice_2023">(<a href="references.html#ref-treischl_practice_2023" role="doc-biblioref">Treischl 2023</a>)</span>. Practice R is a text book for the social sciences which provides several tutorials supporting students to learn R. Feel free to inspect the tutorials even if you are not familiar with the book, but keep in mind these tutorials are supposed to complement the Practice R book. <a href="https://stringr.tidyverse.org" target="_blank"><img src="https://github.com/tidyverse/stringr/raw/main/man/figures/logo.png" alt="The stringr package" align="right" width="100"></a></p>
+<p>We extracted data from a PDF, I outlined the basics about web scraping, and we got in touch with APIs in Chapter 11. As outlined, to collect data offers unique opportunities for applied empirical research, but can be very tricky, especially web scraping becomes quickly complicated.</p>
+<p>Regardless of the approach to collect data, I introduced the <code>stringr</code> package and its main functions before we extracted information from a PDF file and worked with unstructured data from HTML files <span class="citation" data-cites="stringr">(<a href="references.html#ref-stringr" role="doc-biblioref">Wickham 2022c</a>)</span>. To give you a compact overview about the many <code>str_*</code> functions, this tutorial is dedicated to the <code>stringr</code> package: We recapture the introduced functions and explore further possibilities how we can handle strings. The next console shows data and fictive email addresses from persons you may know from the Netflix series <em>Stranger Things</em>. Never mind if you are not familiar with the series, we will use the character variables such as the email addresses to work with <code>stringr</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Libs for Tutorial 11</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringi)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># The stranger things example data</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sf_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 6 × 5
+#&gt;   character        firstname    lastname   year email                   
+#&gt;   &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;                   
+#&gt; 1 Eleven           Millie Bobby Brown      2004 eleven@HawkinsLab.com   
+#&gt; 2 Dustin Henderson Gaten        Matarazzo  2002 Dustin.Henderson@gmx.com
+#&gt; 3 Will Byers       Noah         Schnapp    2004 byers-castle@gmx.com    
+#&gt; 4 Erica Sinclair   Priah        Ferguson   2006 Erica-Sinclair1@aol.com 
+#&gt; 5 Martin Brenner   Matthew      Modine     1959 MBrenner@HawkinsLab.com2
+#&gt; 6 Jim Hopper       David        Harbour    1975 jim.hopper@hawkinspd.com</code></pre>
+</div>
+</div>
+<p>The <code>stringr</code> package increases your string powers tremendously, but we need to keep up with many <code>str_*</code> functions and names. All you have to do is pick the “right” function in this tutorial. For the compact overview, we focus on the sections of the package cheat sheet: (1) We detect matches; (2) we mutate strings; (3) we subset strings; (4) we join and split strings; and (5) we order strings and manage their length.</p>
+<section id="detect-matches" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="detect-matches"><span class="header-section-number">9.1</span> Detect matches</h2>
+<p>Suppose we want to create an online survey which is why we scraped <code>emails</code> of our participants such as in the fictive email addresses from the Stranger Things data. Unfortunately, the strings contain some minor mistakes that need to be fixed:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Email examples</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>emails <span class="ot">&lt;-</span> sf_data<span class="sc">$</span>email</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>emails</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "eleven@HawkinsLab.com"    "Dustin.Henderson@gmx.com"
+#&gt; [3] "byers-castle@gmx.com"     "Erica-Sinclair1@aol.com" 
+#&gt; [5] "MBrenner@HawkinsLab.com2" "jim.hopper@hawkinspd.com"
+#&gt; [7] "Joyce-B@gmx.com"          "Mike@TheWheelers.com"    
+#&gt; [9] "1nancy-wheeler92@gmx.com"</code></pre>
+</div>
+</div>
+<p>Notice, some email addresses start (end) with a number instead of letters. Those signs are not a part of the email address but refer to footnotes on the webpage where we scraped the data. Suppose we do not know how virulent this problem is, can you detect which one does not <em>start</em> (<code>str_starts</code>) or <em>end</em> (<code>str_ends</code>) with a letter?</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Does the string start with ...?</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_starts</span>(emails, <span class="st">"[:alpha:]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</code></pre>
+</div>
+</div>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Does the string end with ...?</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_ends</span>(emails, <span class="st">"[:alpha:]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</code></pre>
+</div>
+</div>
+<p>Some of the email addresses are private, while others are from a company (e.g., <code>HawkinsLab.com</code>). If you need to know how many, use the <code>str_count()</code> function and build the sum. How many email addresses are from <code>HawkinsLab.com</code>?</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count them</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">str_count</span>(emails, <span class="st">"HawkinsLab.com"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 2</code></pre>
+</div>
+</div>
+<p>Use the <code>str_detect()</code> function to detect all strings from the HawkinsLab.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Detect strings</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(emails, <span class="st">"@HawkinsLab.com"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1]  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</code></pre>
+</div>
+</div>
+<p>The <code>str_which()</code> is also handy, it returns <em>at which position</em> we observe the search pattern.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># And at which position?</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_which</span>(emails, <span class="st">"@HawkinsLab.com"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 1 5</code></pre>
+</div>
+</div>
+<p>Suppose we need to extract the user names because we want to include them in the email invitation for the survey. In order to extract the names, <em>locate</em> the position of a string. Use the <code>str_locate()</code> to locate where the <code>@</code> sign appears, because it splits the string into the user and the provider name.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Locate a start and an end point (here @)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_locate</span>(emails, <span class="st">"@"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;       start end
+#&gt;  [1,]     7   7
+#&gt;  [2,]    17  17
+#&gt;  [3,]    13  13
+#&gt;  [4,]    16  16
+#&gt;  [5,]     9   9
+#&gt;  [6,]    11  11
+#&gt;  [7,]     8   8
+#&gt;  [8,]     5   5
+#&gt;  [9,]    17  17</code></pre>
+</div>
+</div>
+<p>In the next step we will use the position of the <code>@</code> sign to mutate the strings and to extract their user names.</p>
+</section>
+<section id="mutate-strings" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="mutate-strings"><span class="header-section-number">9.2</span> Mutate strings</h2>
+<p>Let us first clean the email addresses. <em>Remove</em> strings that do not start or end with a letter but with a number, which is clearly an error. Very similar to the <code>str_replace()</code> function, the <code>str_remove()</code> searches the string, but it removes a match instead of performing a replacement. Can you still remember how to remove the digits from the beginning (<code>^</code>) and the end (<code>$</code>) of a string? Replace the <code>emails</code> vector and check if it worked.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="7">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove strings</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>emails <span class="ot">&lt;-</span> <span class="fu">str_remove</span>(emails, <span class="st">"^[:digit:]"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>emails <span class="ot">&lt;-</span> <span class="fu">str_remove</span>(emails, <span class="st">"[:digit:]$"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Did it work?</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>emails</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "eleven@HawkinsLab.com"    "Dustin.Henderson@gmx.com"
+#&gt; [3] "byers-castle@gmx.com"     "Erica-Sinclair1@aol.com" 
+#&gt; [5] "MBrenner@HawkinsLab.com"  "jim.hopper@hawkinspd.com"
+#&gt; [7] "Joyce-B@gmx.com"          "Mike@TheWheelers.com"    
+#&gt; [9] "nancy-wheeler92@gmx.com"</code></pre>
+</div>
+</div>
+<p>We could use the <code>str_extract()</code> function and our regex knowledge to extract the user names, but regex are hard to build even in the case of a supposedly simple strings. The email addresses make this point clear: Each user name consist of one or several words; some have a separator between the first and the last name, some contains digits (or not), and the user name ends before the <code>@</code> sign. There is a much simpler solution to extract the user names, but nevertheless keep the <code>str_view_all()</code> function in mind if you are building a regex because it displays the strings in the viewer pane and highlights matched characters.</p>
+<p>Instead of building a regex, we can use the <code>str_sub()</code> function to create a vector with the user names only. The function needs the strings, a start, and an endpoint to create the subset. For this purpose we already located the positions of the <code>@</code> sign with the <code>str_locate()</code> function. Thus, all user names start at the first position until the <code>@</code> sign appears in the string. I copied the code to locate the <code>@</code> sign and saved the results as <code>x</code>. Subset <code>x</code> to get a vector with the end position of the user name, then subset the <code>emails</code>.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r5" data-exercise.lines="7">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get and set substrings using their positions</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">str_locate</span>(emails, <span class="st">"@"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>end <span class="ot">&lt;-</span> x[, <span class="dv">1</span>]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>names <span class="ot">&lt;-</span> <span class="fu">str_sub</span>(emails, <span class="dv">1</span>, end <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>names</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "eleven"           "Dustin.Henderson" "byers-castle"     "Erica-Sinclair1" 
+#&gt; [5] "MBrenner"         "jim.hopper"       "Joyce-B"          "Mike"            
+#&gt; [9] "nancy-wheeler92"</code></pre>
+</div>
+</div>
+<p>Further steps to manipulate the strings might be easier to apply if all the user would have used the same style regarding their user names. Use the <code>str_replace()</code> function and replace the dashes with points.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r9setup">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace</span>(names, <span class="st">"-"</span>, <span class="st">"."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "eleven"           "Dustin.Henderson" "byers.castle"     "Erica.Sinclair1" 
+#&gt; [5] "MBrenner"         "jim.hopper"       "Joyce.B"          "Mike"            
+#&gt; [9] "nancy.wheeler92"</code></pre>
+</div>
+</div>
+<p>Depending on the purpose, it might also be useful to create a uniform formatting of the strings. Use one of the <code>str_to_*()</code> functions to make them <em>lower</em>, <em>upper</em>, or <em>title</em> case.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r6">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str_to_* (lower, upper, title)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_to_lower</span>(names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "eleven"           "dustin.henderson" "byers-castle"     "erica-sinclair1" 
+#&gt; [5] "mbrenner"         "jim.hopper"       "joyce-b"          "mike"            
+#&gt; [9] "nancy-wheeler92"</code></pre>
+</div>
+</div>
+</section>
+<section id="subset-strings" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="subset-strings"><span class="header-section-number">9.3</span> Subset strings</h2>
+<p>We used the <code>str_sub()</code> to split strings by their position, but the <code>str_subset()</code> function lets us create a subset for a search pattern. For example, consider all participants with an specific email account (e.g., <code>gmx</code>):</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r5">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find matching elements</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_subset</span>(emails, <span class="at">pattern =</span> <span class="st">"gmx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "Dustin.Henderson@gmx.com" "byers-castle@gmx.com"    
+#&gt; [3] "Joyce-B@gmx.com"          "nancy-wheeler92@gmx.com"</code></pre>
+</div>
+</div>
+<p>Furthermore, most of the time we use the <code>str_detect()</code> function to detect a pattern. For example, the functions shows us which input has a specific pattern and we can detect if an string has no <code>@</code> sign at all.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="12">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>strings <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Dustin Henderson"</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"hop@gmx.com jim.hopper@hawkinspd.com"</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Erica-Sinclair@aol.com"</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"nancy-wheeler92@gmx.com"</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>is_email <span class="ot">&lt;-</span> <span class="st">"@"</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Detect a pattern</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(strings, is_email)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] FALSE  TRUE  TRUE  TRUE</code></pre>
+</div>
+</div>
+<p>We used the function to illustrate the first few things about regular expressions. However, we do not need to filter the data and first detect the email addresses if we want to extract this information. Consider how the <code>str_extract()</code> and the <code>str_extract_all</code> function work. The function needs <code>strings</code> and a pattern (such as <code>is_email</code>). It shows us which string does (not) include the given pattern.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r12">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the complete match</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_extract</span>(strings, is_email)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] NA  "@" "@" "@"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_extract_all</span>(strings, is_email)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [[1]]
+#&gt; character(0)
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] "@" "@"
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] "@"
+#&gt; 
+#&gt; [[4]]
+#&gt; [1] "@"</code></pre>
+</div>
+</div>
+<p>Finally, the <code>str_match()</code> (and <code>str_match_all</code>) does essentially the same as <code>str_extract()</code>, but returns matches as matrix.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r12">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract components (capturing groups) from a match</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_match</span>(strings, is_email)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;      [,1]
+#&gt; [1,] NA  
+#&gt; [2,] "@" 
+#&gt; [3,] "@" 
+#&gt; [4,] "@"</code></pre>
+</div>
+</div>
+</section>
+<section id="join-and-splits" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="join-and-splits"><span class="header-section-number">9.4</span> Join and splits</h2>
+<p>The <code>stringr</code> package has join and split functions. Suppose we scraped the first and the last name of a person separately, but for the survey invitation we need to combine them. Use <code>str_c()</code> for this job and assign them as <code>names</code>. Combine the <code>firstname</code> with the <code>lastname</code> from the <code>sf_data</code>. Use a blank space as a separator (<code>sep</code>).</p>
+<div class="cell" data-exercise="true" data-exercise.lines="8">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use str_c to combine strings</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>names <span class="ot">&lt;-</span> <span class="fu">str_c</span>(sf_data<span class="sc">$</span>firstname, sf_data<span class="sc">$</span>lastname, <span class="at">sep =</span> <span class="st">" "</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>names</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "Millie Bobby Brown" "Gaten Matarazzo"    "Noah Schnapp"      
+#&gt; [4] "Priah Ferguson"     "Matthew Modine"     "David Harbour"     
+#&gt; [7] "Winona Ryder"       "Finn Wolfhard"      "Natalia Dyer"</code></pre>
+</div>
+</div>
+<p>Use the <code>str_split_fixed()</code> in the opposite scenario. Split the <code>names</code> vector from the last task: Use the blank space as a <code>pattern</code> and each name consist of two text chunks we want to split (<code>n</code>).</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r17setup">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split strings</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_split_fixed</span>(names, <span class="at">pattern =</span> <span class="st">" "</span>, <span class="at">n =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;       [,1]      [,2]         
+#&gt;  [1,] "Millie"  "Bobby Brown"
+#&gt;  [2,] "Gaten"   "Matarazzo"  
+#&gt;  [3,] "Noah"    "Schnapp"    
+#&gt;  [4,] "Priah"   "Ferguson"   
+#&gt;  [5,] "Matthew" "Modine"     
+#&gt;  [6,] "David"   "Harbour"    
+#&gt;  [7,] "Winona"  "Ryder"      
+#&gt;  [8,] "Finn"    "Wolfhard"   
+#&gt;  [9,] "Natalia" "Dyer"</code></pre>
+</div>
+</div>
+<p>We used the <code>str_sub()</code> function to extract the user names, but we could also use the <code>str_split()</code> function to split the strings before and after the <code>@</code> sign. Say we want to extract unique provider names this time. The <code>str_split()</code> function returns a list as the next console shows. Use the pipe and the <code>map_chr()</code> functions from <code>purrr</code> to get the first or second element of each list <span class="citation" data-cites="purrr">(<a href="references.html#ref-purrr" role="doc-biblioref">Henry and Wickham 2022</a>)</span>. Furthermore, apply the <code>stri_unique()</code> function from <code>stringi</code> to examine unique provider names only <span class="citation" data-cites="stringi">(<a href="references.html#ref-stringi" role="doc-biblioref">Gagolewski et al. 2022</a>)</span>.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r16" data-exercise.lines="7">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split email, get provider names, but only unique ones</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_split</span>(emails, <span class="at">pattern =</span> <span class="st">"@"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_chr</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  stringi<span class="sc">::</span><span class="fu">stri_unique</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "HawkinsLab.com"  "gmx.com"         "aol.com"         "hawkinspd.com"  
+#&gt; [5] "TheWheelers.com"</code></pre>
+</div>
+</div>
+<p>The <code>glue</code> package offers some useful features to work with strings, especially if we create texts and documents. Suppose we want to create a sentence that describe how old a person like <em>Jim Hopper</em> is. I already calculated his age (<code>hopper_age</code>); use the <code>paste</code> function to create a sentences that describes how old he is.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Traditional approach</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>hopper_age <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">year</span>(<span class="fu">Sys.time</span>()) <span class="sc">-</span> sf_data<span class="sc">$</span>year[<span class="dv">6</span>]</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"Jim Hopper is"</span>, hopper_age, <span class="st">"years old."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "Jim Hopper is 49 years old."</code></pre>
+</div>
+</div>
+<p>Did you realize that we need a lot of quotation marks and that we need to be careful not to introduce any error. The <code>str_glue()</code> tries to improve this case. We can refer to objects with curved braces without further ado.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r19">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Glue strings</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_glue</span>(<span class="st">"Hop is {hopper_age} years."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Hop is 49 years.</code></pre>
+</div>
+</div>
+<p>One step further goes the <code>str_glue_data()</code> function. It returns strings for each observation of a data set. For example, build a sentence that outlines the <code>firstname</code>, <code>lastname</code> and the birth <code>year</code> of the Stranger Things actors.</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Glue strings from data</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_glue_data</span>(sf_data, <span class="st">"- {firstname} {lastname} is born in {year}."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; - Millie Bobby Brown is born in 2004.
+#&gt; - Gaten Matarazzo is born in 2002.
+#&gt; - Noah Schnapp is born in 2004.
+#&gt; - Priah Ferguson is born in 2006.
+#&gt; - Matthew Modine is born in 1959.
+#&gt; - David Harbour is born in 1975.
+#&gt; - Winona Ryder is born in 1971.
+#&gt; - Finn Wolfhard is born in 2002.
+#&gt; - Natalia Dyer is born in 1995.</code></pre>
+</div>
+</div>
+<p>Finally, the package offers functions to order strings and manage their length.</p>
+</section>
+<section id="length-and-order" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="length-and-order"><span class="header-section-number">9.5</span> Length and order</h2>
+<p>Do not forget that <code>stringr</code> comes with example strings (<code>fruit</code>, <code>sentences</code>) that lets you test the functions before you run them in the wild, but of course we can also build our own <code>fruits</code>. So, do you remember how we can estimate the length of strings?</p>
+<div class="cell" data-exercise="true">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Length of a string</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"banana"</span>, <span class="st">"apricot"</span>, <span class="st">"apple"</span>, <span class="st">"pear     "</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str_length</span>(fruits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 6 7 5 9</code></pre>
+</div>
+</div>
+<p>Unfortunately, the <code>fruits</code> vector includes an mistake. There is a lot of white space around the last fruit. Do you know how to get rid of such noise.</p>
+<div class="cell" data-exercise="true" data-exercise.setup="r22">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Trim your strings</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(fruits)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>fruits</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "banana"  "apricot" "apple"   "pear"</code></pre>
+</div>
+</div>
+<p>Finally, order (<code>str_order</code>) and sort (<code>str_sort</code>) the fruits.</p>
+<div class="cell" data-exercise="true" data-exercise.lines="6" data-exercise.setup="r24setup">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Order strings</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_order</span>(fruits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] 3 2 1 4</code></pre>
+</div>
+</div>
+<div class="cell" data-exercise="true" data-exercise.lines="6" data-exercise.setup="r24setup">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort strings</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_sort</span>(fruits, <span class="at">decreasing =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "apple"   "apricot" "banana"  "pear"</code></pre>
+</div>
+</div>
+</section>
+<section id="summary" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.6</span> Summary</h2>
+<p>Keep also the following functions and packages from Chapter 11 in mind:</p>
+<ul>
+<li>PDF utilities <span class="citation" data-cites="pdftools">(e.g., <code>pdf_text</code>, <a href="references.html#ref-pdftools" role="doc-biblioref">Ooms 2022</a>)</span></li>
+<li>Coerce a list to a vector (<code>purrr::as_vector</code>)</li>
+<li>The Names of an object (<code>names</code>)</li>
+<li>Subset rows using their positions <span class="citation" data-cites="dplyr">(<code>dplyr::slice_*</code>, <a href="references.html#ref-dplyr" role="doc-biblioref">Wickham et al. 2022</a>)</span></li>
+<li>Bind multiple data frames by row (<code>dplyr::bind_rows</code>)</li>
+<li>The <code>rvest</code> package and its functions for web scraping <span class="citation" data-cites="rvest">(e.g., <code>read_html, html_table</code>, <a href="references.html#ref-rvest" role="doc-biblioref">Wickham 2022b</a>)</span></li>
+<li>The <code>httr</code> package and its functions for receive information from a website <span class="citation" data-cites="httr">(<code>GET, content</code>, <a href="references.html#ref-httr" role="doc-biblioref">Wickham 2022a</a>)</span></li>
+<li>Create an API with the <code>plumber</code> package <span class="citation" data-cites="plumber">(<a href="references.html#ref-plumber" role="doc-biblioref">Schloerke and Allen 2022</a>)</span></li>
+</ul>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-stringi" class="csl-entry" role="listitem">
+Gagolewski, Marek, Bartek Tartanus, others; Unicode, Inc., et al. 2022. <em><span class="nocase">stringi: Fast and Portable Character String Processing Facilities</span></em>. <a href="https://CRAN.R-project.org/package=stringi">https://CRAN.R-project.org/package=stringi</a>.
+</div>
+<div id="ref-purrr" class="csl-entry" role="listitem">
+Henry, Lionel, and Hadley Wickham. 2022. <em><span class="nocase">purrr: Functional Programming Tools</span></em>. <a href="https://CRAN.R-project.org/package=purrr">https://CRAN.R-project.org/package=purrr</a>.
+</div>
+<div id="ref-pdftools" class="csl-entry" role="listitem">
+Ooms, Jeroen. 2022. <em><span class="nocase">pdftools: Text Extraction, Rendering and Converting of PDF Documents</span></em>. <a href="https://CRAN.R-project.org/package=pdftools">https://CRAN.R-project.org/package=pdftools</a>.
+</div>
+<div id="ref-plumber" class="csl-entry" role="listitem">
+Schloerke, Barret, and Jeff Allen. 2022. <em><span class="nocase">plumber: An API Generator for R</span></em>. <a href="https://CRAN.R-project.org/package=plumber">https://CRAN.R-project.org/package=plumber</a>.
+</div>
+<div id="ref-treischl_practice_2023" class="csl-entry" role="listitem">
+Treischl, Edgar J. 2023. <em>Practice <span>R</span>: <span>An</span> Interactive Textbook</em>. De Gruyter Oldenbourg.
+</div>
+<div id="ref-httr" class="csl-entry" role="listitem">
+Wickham, Hadley. 2022a. <em><span class="nocase">httr: Tools for Working with URLs and HTTP</span></em>. <a href="https://CRAN.R-project.org/package=httr">https://CRAN.R-project.org/package=httr</a>.
+</div>
+<div id="ref-rvest" class="csl-entry" role="listitem">
+———. 2022b. <em><span class="nocase">rvest: Easily Harvest (Scrape) Web Pages</span></em>. <a href="https://CRAN.R-project.org/package=rvest">https://CRAN.R-project.org/package=rvest</a>.
+</div>
+<div id="ref-stringr" class="csl-entry" role="listitem">
+———. 2022c. <em><span class="nocase">stringr: Simple, Consistent Wrappers for Common String Operations</span></em>. <a href="https://CRAN.R-project.org/package=stringr">https://CRAN.R-project.org/package=stringr</a>.
+</div>
+<div id="ref-dplyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2022. <em><span class="nocase">dplyr: A Grammar of Data Manipulation</span></em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter_10.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Automate work</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

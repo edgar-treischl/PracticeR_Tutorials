@@ -16,6 +16,7 @@ book:
     - chapter_07.qmd
     - chapter_08.qmd
     - chapter_10.qmd
+    - chapter_11.qmd
     - references.qmd
   navbar:
     right:
