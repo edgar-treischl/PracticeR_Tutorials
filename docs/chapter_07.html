@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">11 Collect data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Collect data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -385,7 +385,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <pre><code>#&gt; Rows: 615
 #&gt; Columns: 2
 #&gt; $ group   &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A…
-#&gt; $ outcome &lt;dbl&gt; 13.06984, 10.62587, 12.96371, 11.07371, 12.21470, 12.69473, 11…</code></pre>
+#&gt; $ outcome &lt;dbl&gt; 12.17314, 11.58359, 12.18605, 11.71458, 11.03923, 11.67549, 12…</code></pre>
 </div>
 </div>
 <p>Say you estimated a box plot to examine the differences between the groups. At first glance there seems to be a large differences between groups as the first box plot reveals, but are we comparing on fair grounds? See what happens if you add a <code>geom_jitter()</code>. It displays observations with points, but compared to a <code>geom_point</code> it adds a small amount of random variation to reduce over plotting.</p>
@@ -443,12 +443,12 @@ document.addEventListener("DOMContentLoaded", function() {
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;   group  outcome num  group_N
-#&gt; 1     A 13.06984 100 A\nN=100
-#&gt; 2     A 10.62587 100 A\nN=100
-#&gt; 3     A 12.96371 100 A\nN=100
-#&gt; 4     A 11.07371 100 A\nN=100
-#&gt; 5     A 12.21470 100 A\nN=100
-#&gt; 6     A 12.69473 100 A\nN=100</code></pre>
+#&gt; 1     A 12.17314 100 A\nN=100
+#&gt; 2     A 11.58359 100 A\nN=100
+#&gt; 3     A 12.18605 100 A\nN=100
+#&gt; 4     A 11.71458 100 A\nN=100
+#&gt; 5     A 11.03923 100 A\nN=100
+#&gt; 6     A 11.67549 100 A\nN=100</code></pre>
 </div>
 </div>
 <p>Now we can use the new variable (<code>group_N</code>) as <code>x</code> and include the sample size. It goes without saying that there are more ways to improve a box plot (and to include text). For example, we can use a <code>geom_violin()</code> to examine the distribution, as the second plot on the right side shows.</p>
@@ -495,7 +495,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;      value                                        label
-#&gt; 1 31.58253 N = 615 \n Mean = 13.01 \n Median = 12.89 \n</code></pre>
+#&gt; 1 30.38942 N = 615 \n Mean = 12.98 \n Median = 12.87 \n</code></pre>
 </div>
 </div>
 <p>Regardless of the approach, keep in mind that a box plot does not show the data nor does it display the distribution. Compared to that, the <code>geom_jitter()</code> displays the data and the violin plot reveals the underlying distribution.</p>

@@ -40,7 +40,7 @@ emails <- sf_data$email
 
 ```
 
-## 11 Collect data
+## Collect data
 
 Welcome to the collect data tutorial of the [Practice R](https://www.degruyter.com/document/isbn/9783110704969/html?lang=de "Go to the website") book [@treischl_practice_2023]. Practice R is a text book for the social sciences which provides several tutorials supporting students to learn R. Feel free to inspect the tutorials even if you are not familiar with the book, but keep in mind these tutorials are supposed to complement the Practice R book. <a href="https://stringr.tidyverse.org" target="_blank"><img src="https://github.com/tidyverse/stringr/raw/main/man/figures/logo.png" alt="The stringr package" align="right" width="100"/></a>
 
